@@ -10,6 +10,12 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: learning
+    description: Adaptive learning and practice
+  - name: tutor
+    description: AI Bhaiya tutor
+  - name: discovery
+    description: Current AI topics and jobs
 paths:
   /healthz:
     get:
@@ -24,7 +30,180 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /learning/assessment:
+    post:
+      operationId: generateAssessment
+      tags: [learning]
+      summary: Generate a short skill assessment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AssessmentInput"
+      responses:
+        "200":
+          description: Assessment questions
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Assessment"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+  /learning/assessment/evaluate:
+    post:
+      operationId: evaluateAssessment
+      tags: [learning]
+      summary: Evaluate assessment answers and produce a personalized roadmap
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AssessmentSubmission"
+      responses:
+        "200":
+          description: Assessment results and personalized roadmap
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AssessmentResult"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+  /learning/roadmap:
+    post:
+      operationId: generateRoadmap
+      tags: [learning]
+      summary: Generate or adapt a learner roadmap
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RoadmapInput"
+      responses:
+        "200":
+          description: Updated roadmap modules
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/RoadmapModule"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+  /learning/lesson:
+    post:
+      operationId: generateLesson
+      tags: [learning]
+      summary: Generate a personalized lesson
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LessonInput"
+      responses:
+        "200":
+          description: Personalized lesson content
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Lesson"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+  /learning/exercise/evaluate:
+    post:
+      operationId: evaluateExercise
+      tags: [learning]
+      summary: Evaluate a learner's practical exercise submission
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ExerciseSubmission"
+      responses:
+        "200":
+          description: Actionable exercise feedback
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExerciseFeedback"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+  /learning/tutor:
+    post:
+      operationId: askTutor
+      tags: [tutor]
+      summary: Ask AI Bhaiya a personalized learning question
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TutorInput"
+      responses:
+        "200":
+          description: Mentor response and optional challenge
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TutorResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+  /discover/trends:
+    get:
+      operationId: getTrends
+      tags: [discovery]
+      summary: Get AI tools and skills discussed recently
+      responses:
+        "200":
+          description: Recent topics derived from public discussion data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TrendsResponse"
+  /discover/jobs:
+    get:
+      operationId: getJobs
+      tags: [discovery]
+      summary: Get recent AI and software roles from a public job feed
+      responses:
+        "200":
+          description: Public job-feed listings or clearly labeled demo data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JobsResponse"
+  /discover/jobs/gap:
+    post:
+      operationId: generateJobGap
+      tags: [discovery]
+      summary: Compare learner skills to a role and adapt their roadmap
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/JobGapInput"
+      responses:
+        "200":
+          description: Skill match and recommended learning plan
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JobGapResult"
+        "400":
+          $ref: "#/components/responses/BadRequest"
 components:
+  responses:
+    BadRequest:
+      description: Invalid request
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
   schemas:
     HealthStatus:
       type: object
@@ -33,4 +212,271 @@ components:
           type: string
       required:
         - status
+    Error:
+      type: object
+      properties:
+        error: { type: string }
+      required: [error]
+    Experience:
+      type: object
+      properties:
+        aiKnowledge: { type: string }
+        programmingKnowledge: { type: string }
+        toolExperience: { type: string }
+        previousProjects: { type: string }
+      required: [aiKnowledge, programmingKnowledge, toolExperience, previousProjects]
+    AssessmentInput:
+      type: object
+      properties:
+        goal: { type: string, minLength: 1 }
+        dailyTime: { type: string, minLength: 1 }
+        experience:
+          $ref: "#/components/schemas/Experience"
+      required: [goal, dailyTime, experience]
+    AssessmentQuestion:
+      type: object
+      properties:
+        id: { type: string }
+        topic: { type: string }
+        prompt: { type: string }
+        choices:
+          type: array
+          items: { type: string }
+      required: [id, topic, prompt, choices]
+    Assessment:
+      type: object
+      properties:
+        questions:
+          type: array
+          items:
+            $ref: "#/components/schemas/AssessmentQuestion"
+        mode: { type: string }
+      required: [questions, mode]
+    AssessmentAnswer:
+      type: object
+      properties:
+        questionId: { type: string }
+        question: { type: string }
+        answer: { type: string }
+      required: [questionId, question, answer]
+    AssessmentSubmission:
+      type: object
+      properties:
+        goal: { type: string, minLength: 1 }
+        dailyTime: { type: string, minLength: 1 }
+        experience:
+          $ref: "#/components/schemas/Experience"
+        answers:
+          type: array
+          items:
+            $ref: "#/components/schemas/AssessmentAnswer"
+      required: [goal, dailyTime, experience, answers]
+    RoadmapModule:
+      type: object
+      properties:
+        id: { type: string }
+        title: { type: string }
+        description: { type: string }
+        difficulty: { type: string }
+        estimatedMinutes: { type: integer }
+        status: { type: string }
+        reason: { type: string }
+        skills:
+          type: array
+          items: { type: string }
+      required: [id, title, description, difficulty, estimatedMinutes, status, reason, skills]
+    AssessmentResult:
+      type: object
+      properties:
+        level: { type: string }
+        strengths:
+          type: array
+          items: { type: string }
+        gaps:
+          type: array
+          items: { type: string }
+        recommendedStartingPoint: { type: string }
+        roadmap:
+          type: array
+          items:
+            $ref: "#/components/schemas/RoadmapModule"
+        mode: { type: string }
+      required: [level, strengths, gaps, recommendedStartingPoint, roadmap, mode]
+    RoadmapInput:
+      type: object
+      properties:
+        goal: { type: string }
+        level: { type: string }
+        dailyTime: { type: string }
+        strengths:
+          type: array
+          items: { type: string }
+        gaps:
+          type: array
+          items: { type: string }
+        existingRoadmap:
+          type: array
+          items:
+            $ref: "#/components/schemas/RoadmapModule"
+        addTopics:
+          type: array
+          items: { type: string }
+      required: [goal, level, dailyTime, strengths, gaps, existingRoadmap, addTopics]
+    LessonInput:
+      type: object
+      properties:
+        topic: { type: string, minLength: 1 }
+        level: { type: string }
+        goal: { type: string }
+      required: [topic, level, goal]
+    Lesson:
+      type: object
+      properties:
+        title: { type: string }
+        estimatedMinutes: { type: integer }
+        learn: { type: string }
+        analogy: { type: string }
+        example: { type: string }
+        tryIt: { type: string }
+        exercisePrompt: { type: string }
+        checkQuestion: { type: string }
+        mode: { type: string }
+      required: [title, estimatedMinutes, learn, analogy, example, tryIt, exercisePrompt, checkQuestion, mode]
+    ExerciseSubmission:
+      type: object
+      properties:
+        topic: { type: string }
+        level: { type: string }
+        task: { type: string }
+        submission: { type: string, minLength: 1 }
+      required: [topic, level, task, submission]
+    ExerciseFeedback:
+      type: object
+      properties:
+        score: { type: integer }
+        mastery: { type: string }
+        strengths:
+          type: array
+          items: { type: string }
+        improvements:
+          type: array
+          items: { type: string }
+        feedback: { type: string }
+        nextStep: { type: string }
+        mastered: { type: boolean }
+        mode: { type: string }
+      required: [score, mastery, strengths, improvements, feedback, nextStep, mastered, mode]
+    TutorProfile:
+      type: object
+      properties:
+        goal: { type: string }
+        level: { type: string }
+        strengths:
+          type: array
+          items: { type: string }
+        gaps:
+          type: array
+          items: { type: string }
+        currentModule: { type: string }
+        recentMistakes:
+          type: array
+          items: { type: string }
+      required: [goal, level, strengths, gaps, currentModule, recentMistakes]
+    TutorInput:
+      type: object
+      properties:
+        question: { type: string, minLength: 1 }
+        profile:
+          $ref: "#/components/schemas/TutorProfile"
+      required: [question, profile]
+    TutorResponse:
+      type: object
+      properties:
+        answer: { type: string }
+        challenge: { type: string }
+        mode: { type: string }
+      required: [answer, challenge, mode]
+    Trend:
+      type: object
+      properties:
+        id: { type: string }
+        title: { type: string }
+        summary: { type: string }
+        category: { type: string }
+        difficulty: { type: string }
+        learningTime: { type: string }
+        mentions: { type: integer }
+        score: { type: integer }
+        sourceUrl: { type: string }
+        relatedLesson: { type: string }
+      required: [id, title, summary, category, difficulty, learningTime, mentions, score, sourceUrl, relatedLesson]
+    TrendsResponse:
+      type: object
+      properties:
+        rangeLabel: { type: string }
+        source: { type: string }
+        generatedAt: { type: string, format: date-time }
+        trends:
+          type: array
+          items:
+            $ref: "#/components/schemas/Trend"
+      required: [rangeLabel, source, generatedAt, trends]
+    Job:
+      type: object
+      properties:
+        id: { type: string }
+        title: { type: string }
+        company: { type: string }
+        location: { type: string }
+        experienceLevel: { type: string }
+        tags:
+          type: array
+          items: { type: string }
+        postedAt: { type: ["string", "null"], format: date-time }
+        source: { type: string }
+        applyUrl: { type: string }
+        remote: { type: boolean }
+      required: [id, title, company, location, experienceLevel, tags, source, applyUrl, remote]
+    JobsResponse:
+      type: object
+      properties:
+        source: { type: string }
+        sourceUrl: { type: string }
+        fetchedAt: { type: string, format: date-time }
+        demo: { type: boolean }
+        jobs:
+          type: array
+          items:
+            $ref: "#/components/schemas/Job"
+      required: [source, sourceUrl, fetchedAt, demo, jobs]
+    JobGapInput:
+      type: object
+      properties:
+        role: { type: string }
+        userSkills:
+          type: array
+          items: { type: string }
+        requiredSkills:
+          type: array
+          items: { type: string }
+        goal: { type: string }
+        level: { type: string }
+        dailyTime: { type: string }
+      required: [role, userSkills, requiredSkills, goal, level, dailyTime]
+    JobGapResult:
+      type: object
+      properties:
+        matchPercent: { type: integer }
+        known:
+          type: array
+          items: { type: string }
+        missing:
+          type: array
+          items: { type: string }
+        roadmap:
+          type: array
+          items:
+            $ref: "#/components/schemas/RoadmapModule"
+        mode: { type: string }
+      required: [matchPercent, known, missing, roadmap, mode]
 
