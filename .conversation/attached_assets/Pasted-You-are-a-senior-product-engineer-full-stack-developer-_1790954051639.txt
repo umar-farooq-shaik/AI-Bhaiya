@@ -1,0 +1,913 @@
+You are a senior product engineer, full-stack developer, AI engineer, UX architect, and product designer.
+
+Build **AI Bhaiya**, a polished, functional, personalized AI learning platform for **anyone who wants to learn AI** — including non-technical beginners, students, developers, career switchers, and working professionals.
+
+The core product idea is:
+
+> **AI Bhaiya — A personalized AI tutor that identifies what you know, finds your gaps, and adapts lessons and practice to help you master AI skills.**
+
+Do NOT build this as a generic chatbot or generic online-course website. The central differentiator must be **personalized, adaptive learning**.
+
+---
+
+# 1. TECH STACK
+
+Use:
+
+* React.js
+* JavaScript or TypeScript
+* Node.js + Express.js where a backend is needed
+* Modern component architecture
+* Responsive design
+* REST APIs where appropriate
+* Environment variables for all API keys/secrets
+* Clean, maintainable folder structure
+
+For AI functionality:
+
+* Use the **Gemini API**
+* Model: `gemini-3.6-flash`
+* If this model is not working use another gemini ai model.
+* Never expose the Gemini API key in frontend code
+* Store it securely as an environment variable
+* Create a reusable backend AI service instead of scattering Gemini calls throughout the application
+
+Use free/open-source tools and services wherever possible.
+
+Suggested free options where appropriate:
+
+* Gemini API for AI
+* Supabase free tier for database/authentication if needed
+* GitHub API for developer/AI ecosystem signals
+* Hacker News API for technology/trend signals
+* Public/free job APIs for job listings where available
+* Local JSON/seed data as a fallback for demo content
+* Replit deployment/tools where available on the current plan
+
+Do not add paid services unless absolutely necessary.
+
+---
+
+# 2. BRAND & VISUAL DIRECTION
+
+The product name is:
+
+## AI Bhaiya
+
+"Bhaiya" should feel like a friendly, knowledgeable mentor who guides the learner — not a childish cartoon character.
+
+Avoid generic AI SaaS aesthetics.
+
+DO NOT use:
+
+* White + blue startup templates
+* Aqua/cyan gradients everywhere
+* Generic purple-blue AI gradients
+* Excessive glassmorphism
+* Huge glowing blobs
+* Generic robot imagery
+* Overly corporate dashboards
+
+Create a distinctive learning-focused visual identity.
+
+Suggested visual direction:
+
+* Warm cream/off-white backgrounds where appropriate
+* Deep charcoal or dark brown text
+* Warm orange/saffron accents
+* Muted green or earthy secondary accents
+* Occasional deep navy/indigo for contrast
+* Soft warm neutrals for cards
+* Strong typography hierarchy
+* Friendly rounded typography without looking childish
+
+Suggested fonts:
+
+* **Plus Jakarta Sans**
+* **DM Sans**
+* **Manrope**
+* or another modern readable font that fits the brand
+
+Use color intentionally to create:
+
+* curiosity
+* motivation
+* progress
+* focus
+* achievement
+
+The UI should make people want to continue learning.
+
+Use subtle animations and micro-interactions, but don't over-animate the interface.
+
+---
+
+# 3. CORE USER PROBLEM
+
+The platform should explicitly solve this problem:
+
+Most AI learning platforms give everyone the same lessons regardless of what they already know, how quickly they learn, or where they struggle.
+
+AI Bhaiya should instead determine:
+
+* What the learner already knows
+* What they don't know
+* What they want to achieve
+* How much time they have
+* Their preferred learning pace
+* Their current skill level
+
+Then dynamically create and adjust their learning journey.
+
+---
+
+# 4. ONBOARDING
+
+Create a short, engaging onboarding flow.
+
+Ask the learner:
+
+### Step 1 — Goal
+
+"What do you want to learn AI for?"
+
+Examples:
+
+* Understand AI basics
+* Build AI applications
+* Become an AI engineer
+* Learn trenidng tools like claude code
+* Use AI at work
+* Learn AI tools
+* Become better at prompting
+* Learn AI automation
+* Prepare for AI jobs
+* Build AI agents
+* Explore generative AI
+* Other
+
+Allow a custom goal.
+
+### Step 2 — Available time
+
+Ask:
+
+"How much time can you learn each day?"
+
+Options:
+
+* 15 minutes
+* 30 minutes
+* 1 hour
+* 2+ hours
+* Custom time 
+### Step 3 — Current experience
+
+Ask about:
+
+* AI knowledge
+* Programming knowledge
+* AI tool experience
+* Previous projects
+
+### Step 4 — Quick skill assessment
+
+Generate a short adaptive assessment.
+
+Questions should cover relevant areas based on the learner's selected goal.
+
+For example:
+
+* AI fundamentals
+* Prompting
+* LLM concepts
+* AI tools
+* APIs
+* Automation
+* Agents
+* Coding
+* Practical AI usage
+
+Use Gemini to evaluate answers.
+
+The assessment should produce:
+
+* Current level
+* Strengths
+* Knowledge gaps
+* Recommended starting point
+
+Do not make the assessment unnecessarily long.
+
+---
+
+# 5. PERSONALIZED ROADMAP
+
+After onboarding, generate a personalized learning roadmap.
+
+Example:
+
+"Your AI Journey"
+
+1. AI Fundamentals
+2. How LLMs Work
+3. Prompt Engineering
+4. AI Tools
+5. Building with APIs
+6. AI Automation
+7. AI Agents
+8. Build Your First AI Project
+
+But this roadmap must change based on the learner.
+
+If someone already knows prompting, don't force them through beginner prompting lessons.
+
+If someone struggles with APIs, recommend prerequisite lessons.
+
+Display:
+
+* Completed
+* Current
+* Locked
+* Recommended
+* Needs practice
+
+Each module should show:
+
+* Estimated time
+* Difficulty
+* Why it is recommended
+* Skills gained
+
+---
+
+# 6. ADAPTIVE LESSON ENGINE
+
+This is the most important part of the product.
+
+Lessons should not simply be static articles.
+
+Each lesson should contain:
+
+### Learn
+
+Clear explanation adapted to the learner's level.
+
+### Example
+
+Real-world examples.
+
+### Try it
+
+Interactive activity.
+
+### Practice
+
+AI-generated exercises based on the learner's current knowledge.
+
+### Check understanding
+
+Short questions or mini challenge.
+
+### Adapt
+
+Based on performance:
+
+* If the learner performs well → increase difficulty
+* If they struggle → simplify the explanation
+* If they repeatedly make the same mistake → provide targeted remediation
+* If they finish quickly → offer an advanced challenge
+
+Use Gemini to generate personalized explanations and exercises.
+
+---
+
+# 7. AI BHaiya TUTOR
+
+Create a persistent AI tutor experience called:
+
+**Ask AI Bhaiya**
+
+The tutor should know the learner's:
+
+* Goal
+* Current level
+* Completed lessons
+* Weak areas
+* Strengths
+* Current roadmap
+* Recent mistakes
+
+It should behave like a mentor, not merely a chatbot.
+
+Example:
+
+Learner:
+"I don't understand embeddings."
+
+AI Bhaiya:
+Explain using the learner's current knowledge level and provide a simple analogy.
+
+Then:
+
+"Want to try a 2-minute challenge?"
+
+The tutor should encourage learning through interaction rather than simply giving answers.
+
+---
+
+# 8. PRACTICAL EXERCISES
+
+Every major learning module should have practical work.
+
+Examples:
+
+* Write a prompt
+* Improve a bad prompt
+* Analyze an AI response
+* Build a small AI workflow
+* Use an AI tool
+* Create an API request
+* Build a mini AI feature
+* Design an AI agent workflow
+
+Use Gemini to evaluate submissions where appropriate.
+
+Return:
+
+* Score or mastery level
+* What was done well
+* What needs improvement
+* Suggested next step
+
+Avoid making every activity a simple multiple-choice quiz.
+
+---
+
+# 9. DAILY LEARNING EXPERIENCE
+
+Create a dashboard showing:
+
+### Good morning, [Name]
+
+"Today's AI learning plan"
+
+For example:
+
+**Today's goal**
+20 minutes
+
+**Continue**
+Prompt Engineering — Lesson 3
+
+**Practice**
+Improve this customer-support prompt
+
+**Quick Win**
+Learn one new AI concept
+
+Display a simple progress indicator.
+
+Avoid overwhelming the user with too many dashboard widgets.
+
+---
+
+# 10. PROGRESS & MASTERY
+
+Track:
+
+* Lessons completed
+* Practice completed
+* Skills mastered
+* Weak areas
+* Learning streak
+* Time spent learning
+* Current level
+* Roadmap progress
+
+Instead of relying only on percentage completion, show **skill mastery**.
+
+Example:
+
+Prompt Engineering
+████████░░ 82%
+
+AI Fundamentals
+█████████░ 91%
+
+AI Agents
+████░░░░░░ 42%
+
+Make the progress visually motivating.
+
+---
+
+# 11. TRENDING AI TOOLS & SKILLS
+
+Create a dedicated page:
+
+## What's Trending in AI?
+
+This page should help learners understand what they should consider learning next.
+
+Categories:
+
+### AI Tools
+
+Examples:
+
+* Claude Code
+* GPT 6 Astra
+* Codex
+* AI automation tools
+* AI agent frameworks
+
+### AI Skills
+
+Examples:
+
+* Prompt engineering
+* AI-assisted coding
+* AI agents
+* RAG
+* AI automation
+* LLM APIs
+* Multimodal AI
+* AI evaluation
+* Context engineering
+
+Show for each:
+
+* What it is
+* Why it matters
+* Difficulty
+* Who should learn it
+* Estimated learning time
+* Related AI Bhaiya lessons
+
+Add:
+
+**"Learn this with AI Bhaiya →"**
+
+This should connect trending topics directly to the personalized roadmap.
+
+Do not claim something is "trending" without data. Where live data isn't available, label content as curated/recommended rather than pretending it is real-time.
+
+---
+
+# 12. TRENDING AI / SOFTWARE ENGINEERING JOBS
+
+Create a page:
+
+## AI Jobs
+
+The purpose is to connect learning with career opportunities.
+
+Show current/recent roles related to:
+
+* AI Engineer
+* ML Engineer
+* Generative AI Engineer
+* AI Application Developer
+* LLM Engineer
+* AI Automation Engineer
+* AI Agent Developer
+* Full-Stack AI Developer
+* Prompt Engineer where relevant
+
+Each job card should show:
+
+* Job title
+* Company
+* Location / Remote
+* Experience level
+* Key skills
+* Posted date if available
+* Source
+* Apply button
+
+Add filters:
+
+* Remote
+* India
+* International
+* Fresher
+* 0–2 years
+* AI Engineer
+* GenAI
+* AI Developer
+* ML
+* AI Agents
+
+IMPORTANT:
+
+Never fabricate job listings.
+
+Use a legitimate free/public job-data source where possible.
+
+If the external API is unavailable, use clearly labeled demo/seed data instead of inventing "live" jobs.
+
+Add:
+
+**Skills employers are asking for**
+
+For example:
+
+* Python
+* LLM APIs
+* RAG
+* LangChain/LangGraph
+* AI agents
+* React
+* Node.js
+* Vector databases
+* Prompt engineering
+
+Then connect these skills to AI Bhaiya:
+
+**"You are missing: RAG"**
+
+**Start learning →**
+
+---
+
+# 13. CAREER GAP FEATURE
+
+On the AI Jobs page, allow the learner to compare their current skills against selected job requirements.
+
+Example:
+
+### Your AI Skill Gap
+
+You know:
+✓ React
+✓ JavaScript
+✓ Prompting
+
+Learn next:
+○ Python for AI
+○ RAG
+○ LLM APIs
+○ AI Agents
+
+Then:
+
+**Generate my learning plan**
+
+This should update their personalized roadmap.
+
+---
+
+# 14. LEARNING SEARCH
+
+Add a global search.
+
+Search examples:
+
+* "What is RAG?"
+* "Learn Claude Code"
+* "AI agents"
+* "How do I build an AI chatbot?"
+* "Jobs requiring LangGraph"
+
+Results should prioritize:
+
+1. AI Bhaiya lessons
+2. User's roadmap
+3. Trending topics
+4. Practical exercises
+5. AI tutor
+
+---
+
+# 15. HOME PAGE
+
+Create a strong landing page.
+
+Hero:
+
+**Meet AI Bhaiya**
+
+**Your AI tutor that learns how you learn.**
+
+Supporting copy:
+
+"Tell us your goal, your available time, and what you already know. AI Bhaiya builds a learning path around you — then adapts as you learn."
+
+Primary CTA:
+
+**Start Learning**
+
+Secondary CTA:
+
+**See How It Works**
+
+Show a visual preview of the personalized learning journey.
+
+Sections:
+
+### Why AI Bhaiya?
+
+Generic courses:
+Everyone follows the same path.
+
+AI Bhaiya:
+Your path changes as you learn.
+
+### How it works
+
+1. Tell us your goal
+2. Assess your skills
+3. Get your personalized roadmap
+4. Learn through adaptive lessons
+5. Practice with real tasks
+6. Track your mastery
+7. Keep up with emerging AI skills
+
+### Stay ahead
+
+Show AI tools, skills, and jobs currently worth paying attention to.
+
+---
+
+# 16. DASHBOARD NAVIGATION
+
+Use a clean navigation structure:
+
+* Home
+* My Roadmap
+* Learn
+* Practice
+* AI Bhaiya
+* Trending AI
+* AI Jobs
+* Progress
+
+Keep navigation simple.
+
+---
+
+# 17. AUTHENTICATION
+
+If authentication is implemented:
+
+Use Supabase Auth or another genuinely free option.
+
+Support:
+
+* Email/password
+* Google login if feasible
+
+For the hackathon/demo experience, also provide a way to explore the product without requiring signup immediately.
+
+---
+
+# 18. DATABASE
+
+If persistent data is needed, use Supabase/PostgreSQL.
+
+Suggested entities:
+
+users
+profiles
+learning_goals
+assessments
+assessment_results
+roadmaps
+roadmap_modules
+lessons
+lesson_progress
+skills
+user_skills
+exercises
+exercise_attempts
+learning_sessions
+trending_topics
+jobs
+
+Keep the schema normalized and simple.
+
+---
+
+# 19. AI ARCHITECTURE
+
+Do NOT send every request directly from React to Gemini.
+
+Use:
+
+React
+↓
+Express API
+↓
+AI Service
+↓
+Gemini API
+
+Create reusable functions such as:
+
+* generateAssessment()
+* evaluateAssessment()
+* generateRoadmap()
+* generateLesson()
+* generateExercise()
+* evaluateExercise()
+* explainConcept()
+* adaptLesson()
+* generateSkillGap()
+* generateLearningRecommendation()
+
+Keep prompts structured and deterministic where possible.
+
+Use structured JSON responses from Gemini where useful.
+
+Validate AI-generated JSON before using it.
+
+Add fallback handling for malformed AI responses.
+
+---
+
+# 20. ERROR HANDLING
+
+The app must not break if:
+
+* Gemini API fails
+* API key is missing
+* Job API fails
+* Network request fails
+* AI returns malformed JSON
+* Database is unavailable
+
+Show useful user-facing messages.
+
+Never expose API keys.
+
+Never show raw stack traces to users.
+
+---
+
+# 21. DEMO MODE
+
+Create realistic seed/demo data so the entire product can be demonstrated even without external APIs.
+
+The demo should include:
+
+* A sample learner
+* Personalized roadmap
+* Completed lessons
+* Skill mastery
+* Sample exercises
+* Trending AI tools
+* AI skills
+* Sample job listings clearly marked as demo data if not live
+
+The product should feel complete immediately after launching.
+
+---
+
+# 22. RESPONSIVENESS
+
+The application must work well on:
+
+* Desktop
+* Laptop
+* Tablet
+* Mobile
+
+Prioritize desktop for the main learning dashboard but ensure mobile usability.
+
+---
+
+# 23. UX PRINCIPLES
+
+The experience should feel:
+
+* Personal
+* Encouraging
+* Focused
+* Modern
+* Practical
+* Curious
+* Progress-oriented
+
+Avoid:
+
+* Too many cards
+* Information overload
+* Generic dashboard layouts
+* Excessive animations
+* Tiny text
+* Long walls of text
+* Fake AI animations
+
+Use progressive disclosure.
+
+Show users what matters now and reveal advanced information when needed.
+
+---
+
+# 24. MICROCOPY
+
+Use natural, human language.
+
+Instead of:
+
+"AI-powered adaptive educational ecosystem"
+
+Use:
+
+"Let's figure out what you know."
+
+Instead of:
+
+"Initialize personalized learning trajectory"
+
+Use:
+
+"Build my learning path."
+
+Instead of:
+
+"Knowledge deficiency detected"
+
+Use:
+
+"You've got the basics. Let's strengthen this part."
+
+The personality should feel like a knowledgeable older brother/mentor.
+
+---
+
+# 25. IMPORTANT PRODUCT DIFFERENTIATOR
+
+Do not let AI Bhaiya become:
+
+"ChatGPT + courses + dashboard."
+
+The core loop must be:
+
+**Goal → Assessment → Personalized Roadmap → Learn → Practice → Evaluate → Adapt → Progress → Career/Trend recommendations → Adapt again**
+
+The user's performance must influence what they learn next.
+
+That adaptive loop is the heart of the product.
+
+---
+
+# 26. BUILD REQUIREMENTS
+
+Before coding:
+
+1. Inspect the Replit environment.
+2. Create the project structure.
+3. Install only necessary dependencies.
+4. Build the application incrementally.
+5. Run the application.
+6. Test all major user flows.
+7. Fix runtime/build errors.
+8. Ensure no broken routes or buttons.
+9. Verify responsive behavior.
+10. Verify API error handling.
+11. Verify the Gemini integration.
+12. Verify demo mode works without external APIs.
+
+Do not stop after creating the landing page.
+
+Build the complete functional product.
+
+---
+
+# 27. FINAL ACCEPTANCE TEST
+
+The finished application must allow a new user to:
+
+1. Open AI Bhaiya
+2. Understand the product immediately
+3. Start onboarding
+4. Enter their learning goal
+5. Enter available learning time
+6. Complete a skill assessment
+7. Receive a personalized roadmap
+8. Start a lesson
+9. Complete an interactive exercise
+10. Receive AI feedback
+11. See their progress change
+12. Ask AI Bhaiya a question
+13. Discover a trending AI skill/tool, for tools choose trending tool of past 2 months
+14. Add that skill to their learning journey
+15. Browse AI/software engineering jobs
+16. See which skills they need for a selected role
+17. Generate/update their learning roadmap based on that gap
+
+Every major button should perform a real action.
+
+No placeholder buttons.
+
+No fake loading states that never finish.
+
+No fabricated live data.
+
+No broken navigation.
+
+Build the product as a cohesive experience, not a collection of disconnected pages.
+
+**Start by implementing the core user journey first: onboarding → assessment → personalized roadmap → adaptive lesson → exercise → feedback → progress. Then implement Trending AI and AI Jobs.**
